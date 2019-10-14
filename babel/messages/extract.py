@@ -202,6 +202,10 @@ def check_and_call_extract_file(filepath, method_map, options_map,
         for opattern, odict in options_map.items():
             if pathmatch(opattern, filename):
                 options = odict
+        if 'keywords' in options:
+            from babel.messages.frontend import parse_keywords
+            keywords = dict(keywords)
+            keywords.update(parse_keywords(options.get('keywords')))
         if callback:
             callback(filename, method, options)
         for message_tuple in extract_from_file(
